@@ -50,7 +50,7 @@ namespace OpenGraal.Core
 		List<Byte> mBuffer = new List<Byte>();
 
 
-		internal CString(string buffer = "")
+		public CString(string buffer = "")
 		{
 			this.Write(Encoding.Default.GetBytes(buffer));
 		}
