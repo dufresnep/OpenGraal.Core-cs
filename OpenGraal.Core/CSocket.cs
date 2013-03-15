@@ -225,7 +225,7 @@ namespace OpenGraal.Core
 		/// <summary>
 		/// Compress Data & Send Buffer
 		/// </summary>
-		public void SendCompress()
+		public virtual void SendCompress()
 		{
 			// Data Exists?
 			if (mDataOut.Length < 1)
@@ -299,11 +299,10 @@ namespace OpenGraal.Core
 			}
 			catch (ObjectDisposedException e)
 			{
-                Console.WriteLine("::" + e.Message + "::");
+				this.Disconnect();
 			}
 			catch (SocketException e)
 			{
-                Console.WriteLine("::" + e.Message + "::");
 				this.Disconnect();
 			}
 		}
@@ -320,7 +319,8 @@ namespace OpenGraal.Core
 			}
 			catch (ObjectDisposedException ez)
 			{
-                Console.WriteLine("::" + ez.Message + "::");
+				
+				this.Disconnect();
 			}
 			catch (SocketException e)
 			{
