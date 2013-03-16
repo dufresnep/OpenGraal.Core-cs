@@ -49,7 +49,6 @@ namespace OpenGraal.Core
 		Int32 mReadCount = 0;
 		List<Byte> mBuffer = new List<Byte>();
 
-
 		public CString(string buffer = "")
 		{
 			this.Write(Encoding.Default.GetBytes(buffer));

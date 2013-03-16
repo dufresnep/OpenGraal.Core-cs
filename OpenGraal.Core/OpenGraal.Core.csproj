@@ -49,6 +49,7 @@
     <Compile Include="CLog.cs" />
     <Compile Include="CSocket.cs" />
     <Compile Include="CString.cs" />
+    <Compile Include="CStringList.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="IniFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,42 @@ namespace OpenGraal.Core
 {
 	public class CStringList : IEnumerable
 	{
+		#region Member Variables
 		/// <summary>
 		/// Player-List
 		/// </summary>
-		//internal Framework Server;
-		public Dictionary<int, CString> BufferList = new Dictionary<int, CString>();
+		private Dictionary<int, CString> _bufferList = new Dictionary<int, CString>();
+		protected Int32 _position = -1;
+		protected int _id = 0;
+		#endregion
 
-		protected Int32 Position = -1;
-		protected int id = 0;
-		/*
+		#region Constructor / Destructor
+		public CStringList()
+		{
+		}
+
 		~CStringList()
 		{
-			for(int i = 0; i < count(); i++)
-				delete (CString)CList::item(i);
+			this.Clear();
 		}
-		*/
-		public int add(string pStr)
+		#endregion
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		/// <summary>
+		/// Iterate Playerlist Manager
+		/// </summary>
+		public IEnumerator<CString> GetEnumerator()
+		{
+			foreach (KeyValuePair<int, CString> Player in this._bufferList)
+				yield return Player.Value;
+		}
+
+		#region Public functions
+		public int Add(string pStr)
 		{
 			CString newString;
 			if(pStr == null)
@@ -33,90 +54,91 @@ namespace OpenGraal.Core
 				newString = new CString();
 				newString.Write(pStr);
 			}
-			BufferList[this.id] = newString;
-			int listId = this.id;
-			this.id++;
+			_bufferList[this._id] = newString;
+			int listId = this._id;
+			this._id++;
 			return listId;
 		}
 
-		public int add(CString pString)
+		public int Add(CString pString)
 		{
 			CString newString = new CString();
 			newString.Write(pString);
-			BufferList[this.id] = newString;
-			int listId = this.id;
-			this.id++;
+			_bufferList[this._id] = newString;
+			int listId = this._id;
+			this._id++;
 			return listId;
 		}
-
-		public void remove(int pIndex)
+		public CString Get(int index)
 		{
-			CString str = (CString)BufferList[pIndex];
+			return this._bufferList[index];
+		}
+
+		public void Remove(int pIndex)
+		{
+			CString str = (CString)_bufferList[pIndex];
 			if(str == null)
 				return;
 			//str.Remove();
-			BufferList.Remove(pIndex);
+			_bufferList.Remove(pIndex);
 		}
 
-		public void clear()
+		public void Clear()
 		{
-			if(BufferList.Count <= 0)
+			if(this._bufferList.Count <= 0)
 				return;
-			/*
-			for(int i = 0; i < count(); i++)
-			{
-				CString str = (CString)CList::item(i);
-				delete str;
-			}
-			*/
+			
+			for(int i = 0; i < this._bufferList.Count; i++)
+				this._bufferList.Remove(i);
 
-			BufferList.Clear();
+			this._bufferList.Clear();
 		}
 
-		public CString item(int pIndex)
+		public CString Item(int pIndex)
 		{
-			return (CString)BufferList[pIndex];
+			return (CString)_bufferList[pIndex];
 		}
 
-		public void replace(int pIndex, string pString)
+		public void Replace(int pIndex, string pString)
 		{
-			CString str = (CString)BufferList[pIndex];
+			CString str = (CString)_bufferList[pIndex];
 			if (str == null)
 				return;
 			//delete str;
 			
 			str = new CString();
 			str.Write(pString);
-			BufferList[pIndex] = str;
+			this._bufferList[pIndex] = str;
 		}
 
-		public bool load(string pFileName)
+		public bool Load(string pFileName)
 		{
 			string[] lines = System.IO.File.ReadAllLines(@""+pFileName);
-			this.clear();
-			//FILE* file = fopen(pFileName, "r");
-			//string file = System.IO.File.ReadAllText(@""+pFileName);
+			this.Clear();
+			string file = System.IO.File.ReadAllText(@""+pFileName);
+
 			if(lines.Length == 0)
 				return false;
+
 			//Read each line and add it to list
 			foreach(string line in lines)
 			{
 				//Trim end of line (spaces allowed)
-				/*
+				string tmpLine = "";
 				for(int i = (int)line.Length-1; i >= 0; i--)
 				{
 					if(line.Length < 1)
-						line = "\0";
+						tmpLine = "\0";
 					else break;
 				}
-				*/
-				this.add(line.TrimEnd());
+
+				this.Add(tmpLine.TrimEnd());
 			}
-			//fclose(file);
+
 			return true;
 		}
 
-		public void load(string pInput, char pSep)
+		public void Load(string pInput, char pSep)
 		{
 			
 			CString newString = new CString();
@@ -126,56 +148,66 @@ namespace OpenGraal.Core
 			string[] lines = newString.Text.Split(pSep);
 			foreach(string line in lines)
 			{
-				this.add(line);
+				this.Add(line);
 				//line = strtok(null, pSep);
 			}
 		}
 
-		public void load(string[] pStrings, int pCount)
+		public void Load(string[] pStrings, int pCount)
 		{
-			this.clear();
+			this.Clear();
 			for(int i = 0; i < pCount; i++)
-				add(pStrings[i]);
+				Add(pStrings[i]);
 		}
 
 		public int find(CString pString)
 		{
-			for(int i = 0; i < this.BufferList.Count; i++)
+			for(int i = 0; i < this._bufferList.Count; i++)
 			{
-				if(this.BufferList[i] == pString)
+				if(this._bufferList[i] == pString)
 					return i;
 			}
 			return -1;
 		}
-		/*
-		int findI(const char* pString)
+
+		public int FindI(string pString)
 		{
-			for(int i = 0; i < count(); i++)
+			for (int i = 0; i < this._bufferList.Count; i++)
 			{
-				if(stricmp(item(i).text(), pString) == 0)
+				if (this._bufferList[i].Text.IndexOf(pString) == 0)
 					return i;
 			}
 			return -1;
 		}
-		*/
-		/*
-		void save(const char* pFileName)
+
+		public void Save(string pFileName)
 		{
-			FILE* file = fopen(pFileName, "wb");
-			for(int i = 0; i < count(); i++)
-				fprintf(file, "%s\r\n", item(i).text());
-			fclose(file);
+			StreamWriter file = new StreamWriter(pFileName, false);
+			for (int i = 0; i < this._bufferList.Count; i++)
+				file.WriteLine(this._bufferList[i].Text);
+			file.Flush();
+			file.Close();
 		}
-		*/
-		/*
-		CString join(char pSep)
+
+		public CString Join(string pSep)
 		{
-			CString retVal;
-			for(int i = 0; i < this.BufferList.Count-1; i++)
-				retVal += pSep + this.BufferList[i];
-			if (this.BufferList.Count != null)
-				retVal += this.BufferList[this.BufferList.Count - 1];
+			CString retVal = new CString();
+			for (int i = 0; i < this._bufferList.Count - 1; i++)
+				retVal += new CString() + pSep + this._bufferList[i];
+			if (this._bufferList.Count != null)
+				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
-		}*/
+		}
+		#endregion
+
+		#region	Get-Value Functions
+		public int Count
+		{
+			get
+			{
+				return this._bufferList.Count;
+			}
+		}
+		#endregion
 	}
 }
