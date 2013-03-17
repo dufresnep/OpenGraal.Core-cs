@@ -71,6 +71,11 @@ namespace OpenGraal.Core
 		}
 		public CString Get(int index)
 		{
+			/*
+			Console.WriteLine("Index: " + index);
+			foreach (KeyValuePair<int,CString> buff in this._bufferList)
+				Console.WriteLine(buff.Key + " " + buff.Value.Text);
+			*/
 			return this._bufferList[index];
 		}
 
@@ -113,9 +118,9 @@ namespace OpenGraal.Core
 
 		public bool Load(string pFileName)
 		{
-			string[] lines = System.IO.File.ReadAllLines(@""+pFileName);
+			string[] lines = System.IO.File.ReadAllLines(pFileName);
+
 			this.Clear();
-			string file = System.IO.File.ReadAllText(@""+pFileName);
 
 			if(lines.Length == 0)
 				return false;
@@ -124,7 +129,8 @@ namespace OpenGraal.Core
 			foreach(string line in lines)
 			{
 				//Trim end of line (spaces allowed)
-				string tmpLine = "";
+				string tmpLine = line;
+
 				for(int i = (int)line.Length-1; i >= 0; i--)
 				{
 					if(line.Length < 1)
@@ -140,7 +146,6 @@ namespace OpenGraal.Core
 
 		public void Load(string pInput, char pSep)
 		{
-			
 			CString newString = new CString();
 			//this.clear();
 			newString.Write(pInput);
