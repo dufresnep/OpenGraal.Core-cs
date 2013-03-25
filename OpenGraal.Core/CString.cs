@@ -628,6 +628,31 @@ namespace OpenGraal.Core
 			return retVal.Remove(retVal.Length - 1, 1); ;
 		}
 
+		public String Tokenize()
+		{
+			// Definition
+			Int32[] pos = new Int32[2] { 0, 0 };
+			String retVal = String.Empty;
+			String text = this.Text;
+
+			// Append '\n' to line
+			if (text[text.Length - 1] != '\n')
+				text += '\n';
+
+			// Tokenize String
+			while ((pos[0] = text.IndexOf('\n', pos[1])) != -1)
+			{
+				String temp = text.Substring(pos[1], pos[0] - pos[1]);
+				temp = temp.Replace("\"", "\"\"");
+				temp = temp.Replace("\r", "");
+				retVal += (temp.Length != 0 ? "\"" + temp + "\"," : ",");
+				pos[1] = pos[0] + 1;
+			}
+
+			// Kill the trailing comma and return our new string.
+			return retVal.Remove(retVal.Length - 1, 1); ;
+		}
+
 		// Graal-Untokenize String
 		static public String untokenize(String pString)
 		{
@@ -726,6 +751,16 @@ namespace OpenGraal.Core
 				return retVal;
 			}
 			return pString;
+		}
+
+		public bool ToBool()
+		{
+			return (int.Parse(this.Text) == 1) ? true : false;
+		}
+
+		public int ToInt()
+		{
+			return int.Parse(this.Text);
 		}
 	}
 }
