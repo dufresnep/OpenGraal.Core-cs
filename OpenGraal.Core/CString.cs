@@ -305,7 +305,7 @@ namespace OpenGraal.Core
 			// Do Compression
 			MemoryStream InStream = new MemoryStream(mBuffer.ToArray());
 			MemoryStream OutStream = new MemoryStream();
-			BZip2.Compress(InStream, OutStream, true, 9);
+			BZip2.Compress(InStream, OutStream, 9);
 
 			// Recreate Buffer
 			mBuffer = OutStream.ToArray().ToList();
@@ -320,7 +320,7 @@ namespace OpenGraal.Core
 			// Do Decompression
 			MemoryStream InStream = new MemoryStream(mBuffer.ToArray());
 			MemoryStream OutStream = new MemoryStream();
-			BZip2.Decompress(InStream, OutStream, true);
+			BZip2.Decompress(InStream, OutStream);
 
 			// Recreate Buffer
 			mBuffer = OutStream.ToArray().ToList();
@@ -351,7 +351,7 @@ namespace OpenGraal.Core
 		{
 			// Do Compression
 			byte[] newBuff = new byte[204800];
-			Inflater I = new Inflater();
+			Inflater I = new Inflater(false);
 			I.SetInput(mBuffer.ToArray(), 0, mBuffer.Count);
 			I.Inflate(newBuff, 0, newBuff.Length);
 
