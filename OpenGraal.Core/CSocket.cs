@@ -36,8 +36,13 @@ namespace OpenGraal.Core
 		/// </summary>
 		public CSocket()
 		{
-			GraalSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			this.Init();
 			this.Setup();
+		}
+
+		public void Init()
+		{
+			GraalSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		}
 
 		public CSocket(Socket Sock)
@@ -89,6 +94,10 @@ namespace OpenGraal.Core
 						catch (Exception e)
 						{
 							// oops
+							//Console.WriteLine(e.Message);
+							//Temporär lösning.
+							GraalSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+							this.Connect(Hostname, Port);
 						}
 					}
 				}
@@ -103,6 +112,7 @@ namespace OpenGraal.Core
 			if (GraalSock.Connected)
 				GraalSock.Shutdown(SocketShutdown.Both);
 			GraalSock.Close();
+
 		}
 
 		/// <summary>
@@ -373,7 +383,8 @@ namespace OpenGraal.Core
 				}
 
 				// Handle Packet
-				HandleData(packet);
+				if (packet != null)
+					HandleData(packet);
 			}
 		}
 	}

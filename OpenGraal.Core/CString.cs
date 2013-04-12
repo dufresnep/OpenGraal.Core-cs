@@ -5,7 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenGraal;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
+
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
@@ -84,7 +85,7 @@ namespace OpenGraal.Core
 		public string Escape()
 		{
 
-			return MySqlHelper.EscapeString(this.Text);
+			return "";//MySqlHelper.EscapeString(this.Text);
 		}
 
 		/// <summary>
@@ -609,21 +610,24 @@ namespace OpenGraal.Core
 			// Definition
 			Int32[] pos = new Int32[2] { 0, 0 };
 			String retVal = String.Empty;
-
-			// Append '\n' to line
-			if (pString[pString.Length - 1] != '\n')
-				pString += '\n';
-
-			// Tokenize String
-			while ((pos[0] = pString.IndexOf('\n', pos[1])) != -1)
+			if (!(pString.Length <= 0))
 			{
-				String temp = pString.Substring(pos[1], pos[0] - pos[1]);
-				temp = temp.Replace("\"", "\"\"");
-				temp = temp.Replace("\r", "");
-				retVal += (temp.Length != 0 ? "\"" + temp + "\"," : ",");
-				pos[1] = pos[0] + 1;
-			}
+				// Append '\n' to line
+				if (pString[pString.Length - 1] != '\n')
+					pString += '\n';
 
+				// Tokenize String
+				while ((pos[0] = pString.IndexOf('\n', pos[1])) != -1)
+				{
+					String temp = pString.Substring(pos[1], pos[0] - pos[1]);
+					temp = temp.Replace("\"", "\"\"");
+					temp = temp.Replace("\r", "");
+					retVal += (temp.Length != 0 ? "\"" + temp + "\"," : ",");
+					pos[1] = pos[0] + 1;
+				}
+			}
+			else
+				retVal += ",";
 			// Kill the trailing comma and return our new string.
 			return retVal.Remove(retVal.Length - 1, 1); ;
 		}
@@ -751,6 +755,12 @@ namespace OpenGraal.Core
 				return retVal;
 			}
 			return pString;
+		}
+
+		public CString Untokenize()
+		{
+			CString tmp = new CString(CString.untokenize (this.Text));
+			return tmp;
 		}
 
 		public bool ToBool()
