@@ -9,18 +9,12 @@ namespace OpenGraal.Core
 {
 	public class IniFile
 	{
-		private Dictionary<string, Dictionary<string, string>> _iniFileContent;
+		private Dictionary<string, Dictionary<string, string>> _iniFileContent = new Dictionary<string, Dictionary<string, string>>();
 		private readonly Regex _sectionRegex = new Regex(@"(?<=\[)(?<SectionName>[^\]]+)(?=\])");
 		private readonly Regex _keyValueRegex = new Regex(@"(?<Key>[^=]+) = (?<Value>.+)");
+		private string _filename = "";
 
-		public IniFile() : this(null) { }
-
-		public IniFile(string filename)
-		{
-			_iniFileContent = new Dictionary<string, Dictionary<string, string>>();
-			if (filename != null)
-				Load(filename);
-		}
+		public IniFile() { }
 
 		/// <summary>
 		/// Get a specific value from the .ini file
@@ -99,6 +93,7 @@ namespace OpenGraal.Core
 		/// <returns></returns>
 		public bool Load(string filename)
 		{
+			this.Filename = filename;
 			if (File.Exists(filename))
 			{
 				try
@@ -143,6 +138,11 @@ namespace OpenGraal.Core
 			}
 		}
 
+		public bool Save()
+		{
+			return this.Save(this.Filename);
+		}
+
 		/// <summary>
 		/// Save the content of this class to an INI File
 		/// </summary>
@@ -169,6 +169,18 @@ namespace OpenGraal.Core
 			catch
 			{
 				return false;
+			}
+		}
+
+		public string Filename
+		{
+			get
+			{
+				return this._filename;
+			}
+			set
+			{
+				this._filename = value;
 			}
 		}
 	}

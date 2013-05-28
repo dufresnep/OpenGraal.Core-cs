@@ -58,7 +58,7 @@ namespace OpenGraal.Core
 		/// <summary>
 		/// Operator Function -> [INDEX]
 		/// </summary>
-		public Byte this[Int32 Index]
+		public Byte this [Int32 Index]
 		{
 			get
 			{
@@ -395,8 +395,9 @@ namespace OpenGraal.Core
 			Byte[] data = new byte[pCount];
 			Read(data);
 			CString data2 = new CString();
-
+		
 			data2.Write(Encoding.Default.GetString(data, 0, data.Length));
+		
 			return data2;
 		}
 
@@ -629,7 +630,8 @@ namespace OpenGraal.Core
 			else
 				retVal += ",";
 			// Kill the trailing comma and return our new string.
-			return retVal.Remove(retVal.Length - 1, 1); ;
+			return retVal.Remove(retVal.Length - 1, 1);
+			;
 		}
 
 		public String Tokenize()
@@ -654,7 +656,8 @@ namespace OpenGraal.Core
 			}
 
 			// Kill the trailing comma and return our new string.
-			return retVal.Remove(retVal.Length - 1, 1); ;
+			return retVal.Remove(retVal.Length - 1, 1);
+			;
 		}
 
 		// Graal-Untokenize String
@@ -667,99 +670,71 @@ namespace OpenGraal.Core
 
 			// Trim Buffer
 			pString = pString.Trim();
-
-			// Check to see if it starts with a quotation mark.  If not, set pos[1] to 0.
-			if (pString.Length > 0)
+			if (pString != string.Empty)
 			{
-				if (pString[0] != '\"') pos[1] = 0;
+				bool is_paren = false;
+
+				// Check to see if we are starting with a quotation mark.
+				int i = 0;
+				if (pString[0] == '"')
+				{
+					is_paren = true;
+					++i;
+				}
 
 				// Untokenize.
-				while ((pos[0] = pString.IndexOf(",", pos[1])) != -1)
+				for (; i < pString.Length; ++i)
 				{
-					// Empty blocks are blank lines.
-					if (pos[0] == pos[1])
+					// If we encounter a comma not inside a quoted string, we are encountering
+					// a new index.  Replace the comma with a newline.
+					if (pString[i] == ',' && !is_paren)
 					{
-						pos[1]++;
-						temp.Add("\r");
-						continue;
-					}
-
-					// ,"", blank lines.
-					if (pos[0] - pos[1] == 1 && pString[pos[1]] == '\"')
-					{
-						pos[1] += 3;
-						temp.Add("\r");
-						continue;
-					}
-
-					// Check for ,,"""blah"
-					if (pString[pos[1]] == '\"' && pString[pos[1] + 1] != '\"')
-					{
-						// Check to make sure it isn't ,"",
-						if (!(pos[1] + 2 < pString.Length && pString[pos[1] + 2] == ','))
-							pos[1]++;
-					}
-
-					// Check and see if the comma is outside or inside of the thing string.
-					// If pos[1] points to a quotation mark we have to find the closing quotation mark.
-					if (pos[1] > 0 && pString[pos[1] - 1] == '\"')
-					{
-						while (true)
+						retVal += "\n";
+					
+						// Check to see if the next string is quoted.
+						if (i + 1 < pString.Length && pString[i + 1] == '"')
 						{
-							if (pos[0] == -1) break;
-							if ((pString[pos[0] - 1] != '\"') || (pString[pos[0] - 1] == '\"' && pString[pos[0] - 2] == '\"'))
-								pos[0] = pString.IndexOf(",", pos[0] + 1);
-							else
-								break;
+							is_paren = true;
+							++i;
 						}
 					}
-
-					// Exit out if we previously failed to find the end.
-					if (pos[0] == -1) break;
-
-					// "test",test
-					String t2 = String.Empty;
-					if (pos[0] > 0 && pString[pos[0] - 1] == '\"')
-						t2 = pString.Substring(pos[1], pos[0] - pos[1] - 1);
+				// We need to handle quotation marks as they have different behavior in quoted strings.
+				else if (pString[i] == '"')
+					{
+						// If we are encountering a quotation mark in a quoted string, we are either
+						// ending the quoted string or escaping a quotation mark.
+						if (is_paren)
+						{
+							if (i + 1 < pString.Length)
+							{
+								// Escaping a quotation mark.
+								if (pString[i + 1] == '"')
+								{
+									retVal += "\"";
+									++i;
+								}
+							// Ending the quoted string.
+							else if (pString[i + 1] == ',')
+									is_paren = false;
+							}
+						}
+					// A quotation mark in a non-quoted string.
 					else
-						t2 = pString.Substring(pos[1], pos[0] - pos[1]);
-
-					// Check if the string is valid and if it is, Add it.
-					temp.Add(t2.Replace("\"\"", "\""));
-
-					// Move forward the correct number of spaces.
-					if (pos[0] + 1 != pString.Length && pString[pos[0] + 1] == '\"')
-						pos[1] = pos[0] + 2;	// test,"test
-					else
-						pos[1] = pos[0] + 1;	// test,test
+							retVal += pString[i];
+					}
+				// Anything else gets put to the output.
+				else
+						retVal += pString[i];
 				}
-
-				// Try and grab the very last element.
-				if (pos[1] < pString.Length)
-				{
-					// If the end is a quotation mark, remove it.
-					if (pString[pString.Length - 1] == '\"')
-						pString = pString.Remove(pString.Length - 1, 1);
-
-					// Sanity check.
-					if (pos[1] != pString.Length)
-						temp.Add(pString.Substring(pos[1]).Replace("\"\"", "\"")); // Replace "" with "
-				}
-
-				// Write the correct string out.
-				foreach (String x in temp)
-					retVal += x + System.Environment.NewLine;
-
-				// Reset old value & return
-				pString = retVal;
-				return retVal;
 			}
-			return pString;
+			else
+				retVal = pString;
+			return retVal;//pString;
 		}
 
 		public CString Untokenize()
 		{
-			CString tmp = new CString(CString.untokenize (this.Text));
+			CString tmp = new CString(CString.untokenize(this.Text));
 			return tmp;
 		}
 
