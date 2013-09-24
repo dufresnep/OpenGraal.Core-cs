@@ -47,7 +47,7 @@ namespace OpenGraal.Core
 		public int Add(string pStr)
 		{
 			CString newString;
-			if(pStr == null)
+			if (pStr == null)
 				newString = new CString();
 			else
 			{
@@ -82,7 +82,7 @@ namespace OpenGraal.Core
 		public void Remove(int pIndex)
 		{
 			CString str = (CString)_bufferList[pIndex];
-			if(str == null)
+			if (str == null)
 				return;
 			//str.Remove();
 			_bufferList.Remove(pIndex);
@@ -90,10 +90,10 @@ namespace OpenGraal.Core
 
 		public void Clear()
 		{
-			if(this._bufferList.Count <= 0)
+			if (this._bufferList.Count <= 0)
 				return;
 			
-			for(int i = 0; i < this._bufferList.Count; i++)
+			for (int i = 0; i < this._bufferList.Count; i++)
 				this._bufferList.Remove(i);
 
 			this._bufferList.Clear();
@@ -122,20 +122,21 @@ namespace OpenGraal.Core
 
 			this.Clear();
 
-			if(lines.Length == 0)
+			if (lines.Length == 0)
 				return false;
 
 			//Read each line and add it to list
-			foreach(string line in lines)
+			foreach (string line in lines)
 			{
 				//Trim end of line (spaces allowed)
 				string tmpLine = line;
 
-				for(int i = (int)line.Length-1; i >= 0; i--)
+				for (int i = (int)line.Length-1; i >= 0; i--)
 				{
-					if(line.Length < 1)
+					if (line.Length < 1)
 						tmpLine = "\0";
-					else break;
+					else
+						break;
 				}
 
 				this.Add(tmpLine.TrimEnd());
@@ -151,7 +152,7 @@ namespace OpenGraal.Core
 			newString.Write(pInput);
 			
 			string[] lines = newString.Text.Split(pSep);
-			foreach(string line in lines)
+			foreach (string line in lines)
 			{
 				this.Add(line);
 				//line = strtok(null, pSep);
@@ -161,15 +162,15 @@ namespace OpenGraal.Core
 		public void Load(string[] pStrings, int pCount)
 		{
 			this.Clear();
-			for(int i = 0; i < pCount; i++)
+			for (int i = 0; i < pCount; i++)
 				Add(pStrings[i]);
 		}
 
 		public int find(CString pString)
 		{
-			for(int i = 0; i < this._bufferList.Count; i++)
+			for (int i = 0; i < this._bufferList.Count; i++)
 			{
-				if(this._bufferList[i] == pString)
+				if (this._bufferList[i] == pString)
 					return i;
 			}
 			return -1;
@@ -199,7 +200,7 @@ namespace OpenGraal.Core
 			CString retVal = new CString();
 			for (int i = 0; i < this._bufferList.Count - 1; i++)
 				retVal += new CString() + pSep + this._bufferList[i];
-			if (this._bufferList.Count != null)
+			if (this._bufferList != null)
 				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
 		}

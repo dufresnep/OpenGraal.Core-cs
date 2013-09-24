@@ -77,28 +77,49 @@ namespace OpenGraal.Core
 		/// <summary>
 		/// Connect to Server:Port
 		/// </summary>
+		public void Connect(IPHostEntry ip, Int32 Port)
+		{
+			foreach (IPAddress addr in ip.AddressList)
+			{
+				this.Connect(addr, Port);
+			}
+		}					
+
+		public void Connect(IPAddress addr, Int32 Port)
+		{
+			if (addr.AddressFamily == AddressFamily.InterNetwork)
+			{
+				try
+				{
+					GraalSock.Connect(new IPEndPoint(addr, Port));
+					//break;
+				}
+				catch (Exception e)
+				{
+					// oops
+					Console.WriteLine(e.Message);
+					//Temporär lösning.
+					GraalSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+					this.Connect(addr, Port);
+				}
+			}
+		}	
+
 		public void Connect(String Hostname, Int32 Port)
 		{
 			if (!GraalSock.Connected)
 			{
-				IPHostEntry ip = Dns.GetHostEntry(Hostname);
-				foreach (IPAddress addr in ip.AddressList)
+				Console.WriteLine("IP: " + Hostname + " Port: " + Port.ToString());
+				try
 				{
-					if (addr.AddressFamily == AddressFamily.InterNetwork)
-					{
-						try
-						{
-							GraalSock.Connect(new IPEndPoint(addr, Port));
-							break;
-						} catch (Exception e)
-						{
-							// oops
-							//Console.WriteLine(e.Message);
-							//Temporär lösning.
-							GraalSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-							this.Connect(Hostname, Port);
-						}
-					}
+					//System.Net.Sockets.SocketException
+					IPAddress ip = IPAddress.Parse(Hostname.Trim());
+					this.Connect(ip, Port);
+				}
+				catch (System.FormatException e)
+				{
+					IPHostEntry ip = Dns.GetHostEntry(Hostname.Trim());
+					this.Connect(ip, Port);
 				}
 			}
 		}
@@ -112,6 +133,12 @@ namespace OpenGraal.Core
 				GraalSock.Shutdown(SocketShutdown.Both);
 			GraalSock.Close();
 
+		}
+				
+		public virtual void Disconnect(string e)
+		{
+			e = "";
+			this.Disconnect();
 		}
 
 		/// <summary>
@@ -168,7 +195,8 @@ namespace OpenGraal.Core
 			{ // 8192
 				EncryptType = Encrypt.Type.BZ2;
 				Packet.BCompress();
-			} else if (Packet.Length > 0x28)
+			}
+			else if (Packet.Length > 0x28)
 			{ // 40
 				EncryptType = Encrypt.Type.ZLIB;
 				Packet.WriteShort(0);
@@ -189,10 +217,12 @@ namespace OpenGraal.Core
 			try
 			{
 				return GraalSock.Send(Buffer);
-			} catch (ObjectDisposedException)
+			}
+			catch (ObjectDisposedException)
 			{
 				return -1;
-			} catch (SocketException)
+			}
+			catch (SocketException)
 			{
 				this.Disconnect();
 				return -1;
@@ -270,9 +300,11 @@ namespace OpenGraal.Core
 				// Send Packet
 				GraalSock.Send(mDataOut.Buffer);
 				mDataOut.Clear();
-			} catch (ObjectDisposedException)
+			}
+			catch (ObjectDisposedException)
 			{
-			} catch (SocketException)
+			}
+			catch (SocketException)
 			{
 				this.Disconnect();
 			}
@@ -300,12 +332,14 @@ namespace OpenGraal.Core
 
 				// Wait for Data
 				ReceiveData();
-			} catch (ObjectDisposedException e)
+			}
+			catch (ObjectDisposedException e)
 			{
-				this.Disconnect();
-			} catch (SocketException e)
+				this.Disconnect(e.Message);
+			}
+			catch (SocketException e)
 			{
-				this.Disconnect();
+				this.Disconnect(e.Message);
 			}
 		}
 
@@ -318,11 +352,13 @@ namespace OpenGraal.Core
 			{
 				Byte[] Buffer = new Byte[0xFFFF];
 				GraalSock.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, cOnDataReceived, Buffer);
-			} catch (ObjectDisposedException ez)
+			}
+			catch (ObjectDisposedException ez)
 			{
 				
-				this.Disconnect();
-			} catch (SocketException e)
+				this.Disconnect(ez.Message);
+			}
+			catch (SocketException e)
 			{
 				Console.WriteLine("::" + e.Message + "::");
 				this.Disconnect();

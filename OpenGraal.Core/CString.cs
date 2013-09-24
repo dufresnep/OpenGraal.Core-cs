@@ -664,9 +664,9 @@ namespace OpenGraal.Core
 		static public String untokenize(String pString)
 		{
 			// Definition
-			Int32[] pos = new Int32[2] { 0, 1 };
+			//Int32[] pos = new Int32[2] { 0, 1 };
 			String retVal = String.Empty;
-			List<String> temp = new List<String>();
+			//List<String> temp = new List<String>();
 
 			// Trim Buffer
 			pString = pString.Trim();
@@ -745,7 +745,9 @@ namespace OpenGraal.Core
 
 		public int ToInt()
 		{
-			return int.Parse(this.Text);
+			int numbers;
+			int.TryParse(this.Text, out numbers);
+			return numbers;
 		}
 	}
 }

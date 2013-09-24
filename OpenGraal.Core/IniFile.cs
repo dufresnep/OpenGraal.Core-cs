@@ -11,7 +11,8 @@ namespace OpenGraal.Core
 	{
 		private Dictionary<string, Dictionary<string, string>> _iniFileContent = new Dictionary<string, Dictionary<string, string>>();
 		private readonly Regex _sectionRegex = new Regex(@"(?<=\[)(?<SectionName>[^\]]+)(?=\])");
-		private readonly Regex _keyValueRegex = new Regex(@"(?<Key>[^=]+) = (?<Value>.+)");
+		private readonly Regex _keyValueRegex = new Regex(@"(?<Key>[^=]+)=(?<Value>.+)");
+		private readonly Regex _singleLineCommentRegex = new Regex(@"^\s*#.*$");
 		private string _filename = "";
 
 		public IniFile() { }
@@ -99,6 +100,7 @@ namespace OpenGraal.Core
 				try
 				{
 					var content = File.ReadAllLines(filename);
+					int com = 0;
 					_iniFileContent = new Dictionary<string, Dictionary<string, string>>();
 					string currentSectionName = string.Empty;
 					foreach (var line in content)
@@ -120,6 +122,21 @@ namespace OpenGraal.Core
 								else
 									kvpList = new Dictionary<string, string>();
 								kvpList[key] = value;
+								_iniFileContent[currentSectionName] = kvpList;
+							}
+
+							m = _singleLineCommentRegex.Match(line);
+							if (m.Success)
+							{
+								com++;
+								string key = m.Value.Trim();
+
+								Dictionary<string, string> kvpList;
+								if (_iniFileContent.ContainsKey(currentSectionName))
+									kvpList = _iniFileContent[currentSectionName];
+								else
+									kvpList = new Dictionary<string, string>();
+								kvpList["commentkey"+com.ToString()] = key;
 								_iniFileContent[currentSectionName] = kvpList;
 							}
 						}
@@ -150,17 +167,7 @@ namespace OpenGraal.Core
 		/// <returns></returns>
 		public bool Save(string filename)
 		{
-			var sb = new StringBuilder();
-			if (_iniFileContent != null)
-			{
-				foreach (var sectionName in _iniFileContent)
-				{
-					sb.AppendFormat("[{0}]\r\n", sectionName.Key);
-					foreach (var keyValue in sectionName.Value)
-						sb.AppendFormat("{0} = {1}\r\n", keyValue.Key, keyValue.Value);
-					sb.AppendLine();
-				}
-			}
+			var sb = GetContentAsStringBuilder();
 			try
 			{
 				File.WriteAllText(filename, sb.ToString());
@@ -170,6 +177,29 @@ namespace OpenGraal.Core
 			{
 				return false;
 			}
+		}
+
+		private StringBuilder GetContentAsStringBuilder()
+		{
+			var sb = new StringBuilder();
+			if (_iniFileContent != null)
+			{
+				foreach (var sectionName in _iniFileContent)
+				{
+					if (sectionName.Key != string.Empty)
+						sb.AppendFormat("[{0}]\r\n", sectionName.Key);
+					
+					foreach (var keyValue in sectionName.Value)
+					{
+						if (keyValue.Key.Contains("commentkey"))
+							sb.AppendFormat("{0}\r\n", keyValue.Value);
+						else
+							sb.AppendFormat("{0} = {1}\r\n", keyValue.Key, keyValue.Value);
+					}
+					sb.AppendLine();
+				}
+			}
+			return sb;
 		}
 
 		public string Filename
@@ -182,6 +212,12 @@ namespace OpenGraal.Core
 			{
 				this._filename = value;
 			}
+		}
+
+		public override string ToString()
+		{
+			var sb = GetContentAsStringBuilder();
+			return sb.ToString();
 		}
 	}
 }
