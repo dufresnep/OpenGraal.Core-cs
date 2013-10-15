@@ -11,12 +11,11 @@
     <RootNamespace>OpenGraal.Core</RootNamespace>
     <AssemblyName>OpenGraal.Core</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <ReleaseVersion>0.0.0.1</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -24,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -43,15 +42,12 @@
     </Reference>
     <Reference Include="MonoDevelop.Deployment, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.Deployment.Linux, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.GtkCore, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>

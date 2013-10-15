@@ -9,16 +9,20 @@ namespace OpenGraal.Core
 {
 	public class CStringList : IEnumerable
 	{
+
 		#region Member Variables
+
 		/// <summary>
 		/// Player-List
 		/// </summary>
 		private Dictionary<int, CString> _bufferList = new Dictionary<int, CString>();
 		protected Int32 _position = -1;
 		protected int _id = 0;
+
 		#endregion
 
 		#region Constructor / Destructor
+
 		public CStringList()
 		{
 		}
@@ -27,6 +31,7 @@ namespace OpenGraal.Core
 		{
 			this.Clear();
 		}
+
 		#endregion
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -44,6 +49,7 @@ namespace OpenGraal.Core
 		}
 
 		#region Public functions
+
 		public int Add(string pStr)
 		{
 			CString newString;
@@ -69,6 +75,7 @@ namespace OpenGraal.Core
 			this._id++;
 			return listId;
 		}
+
 		public CString Get(int index)
 		{
 			/*
@@ -204,9 +211,11 @@ namespace OpenGraal.Core
 				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
 		}
+
 		#endregion
 
 		#region	Get-Value Functions
+
 		public int Count
 		{
 			get
@@ -214,6 +223,8 @@ namespace OpenGraal.Core
 				return this._bufferList.Count;
 			}
 		}
+
 		#endregion
+
 	}
 }

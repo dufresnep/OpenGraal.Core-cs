@@ -83,7 +83,7 @@ namespace OpenGraal.Core
 			{
 				this.Connect(addr, Port);
 			}
-		}					
+		}
 
 		public void Connect(IPAddress addr, Int32 Port)
 		{
@@ -103,7 +103,7 @@ namespace OpenGraal.Core
 					this.Connect(addr, Port);
 				}
 			}
-		}	
+		}
 
 		public void Connect(String Hostname, Int32 Port)
 		{
@@ -134,7 +134,7 @@ namespace OpenGraal.Core
 			GraalSock.Close();
 
 		}
-				
+
 		public virtual void Disconnect(string e)
 		{
 			e = "";

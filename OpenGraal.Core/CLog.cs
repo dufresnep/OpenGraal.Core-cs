@@ -31,10 +31,11 @@ namespace OpenGraal.Core
 			}
 		}
 
-		public bool Out(string format)
+		public bool Out(string format, bool displayMessage = true)
 		{
 			// Display message.
-			Console.Write(format.ToString());
+			if (displayMessage)
+				Console.Write(format.ToString());
 
 			// Log output to file.
 			if (enabled == true && this.file != null)
