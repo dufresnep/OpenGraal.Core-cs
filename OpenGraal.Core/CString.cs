@@ -5,8 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenGraal;
-//using MySql.Data.MySqlClient;
 
+//using MySql.Data.MySqlClient;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
@@ -459,7 +459,6 @@ namespace OpenGraal.Core
 			data[4] = (Byte)(Byte & 0xFF);
 			Write(data);
 		}
-
 		// Read Signed Graal-Byte Data
 		public sbyte ReadGByte1()
 		{
@@ -495,7 +494,6 @@ namespace OpenGraal.Core
 			Read(data);
 			return (int)(((data[0] - 32) << 28) + ((data[1] - 32) << 21) + ((data[2] - 32) << 14) + ((data[3] - 32) << 7) + data[4] - 32);
 		}
-
 		// Read Unsigned Graal-Byte Data
 		public byte ReadGUByte1()
 		{
@@ -521,7 +519,6 @@ namespace OpenGraal.Core
 		{
 			return (uint)ReadGByte5();
 		}
-
 		// Write Graal-Byte Data
 		public CString WriteGByte1(sbyte pByte)
 		{
@@ -604,7 +601,6 @@ namespace OpenGraal.Core
 			x.Write(y);
 			return x;
 		}
-
 		// Graal-Tokenize String
 		static public String tokenize(String pString)
 		{
@@ -626,8 +622,7 @@ namespace OpenGraal.Core
 					retVal += (temp.Length != 0 ? "\"" + temp + "\"," : ",");
 					pos[1] = pos[0] + 1;
 				}
-			}
-			else
+			} else
 				retVal += ",";
 			// Kill the trailing comma and return our new string.
 			return retVal.Remove(retVal.Length - 1, 1);
@@ -659,7 +654,6 @@ namespace OpenGraal.Core
 			return retVal.Remove(retVal.Length - 1, 1);
 			;
 		}
-
 		// Graal-Untokenize String
 		static public String untokenize(String pString)
 		{
@@ -726,8 +720,7 @@ namespace OpenGraal.Core
 				else
 						retVal += pString[i];
 				}
-			}
-			else
+			} else
 				retVal = pString;
 			return retVal;//pString;
 		}
