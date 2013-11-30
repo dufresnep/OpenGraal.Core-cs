@@ -40,6 +40,19 @@ namespace OpenGraal.Core
 			}
 		}
 
+		public bool GetValueBool(string sectionName, string key, bool def)
+		{
+			String val = GetValue(sectionName, key, def.ToString());
+			try
+			{
+				return Convert.ToBoolean(val);
+			}
+			catch (Exception)
+			{
+				return def;
+			}
+		}
+
 		/// <summary>
 		/// Set a specified value in a section (int)
 		/// </summary>

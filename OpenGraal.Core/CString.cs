@@ -731,6 +731,11 @@ namespace OpenGraal.Core
 			return tmp;
 		}
 
+		public override string ToString()
+		{
+			return this.Text;
+		}
+
 		public bool ToBool()
 		{
 			return (int.Parse(this.Text) == 1) ? true : false;
