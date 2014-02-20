@@ -211,7 +211,15 @@ namespace OpenGraal.Core
 				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
 		}
-
+		public CString Join2(string pSep)
+		{
+			CString retVal = new CString();
+			for (int i = 0; i < this._bufferList.Count - 1; i++)
+				retVal += new CString() + this._bufferList[i] + pSep;
+			if (this._bufferList != null)
+				retVal += this._bufferList[this._bufferList.Count - 1];
+			return retVal;
+		}
 		#endregion
 
 		#region	Get-Value Functions
