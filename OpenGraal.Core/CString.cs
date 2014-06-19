@@ -240,9 +240,14 @@ namespace OpenGraal.Core
 		/// </summary>
 		public void Write (byte[] Data, int Count)
 		{
-			Count = Math.Min (Data.Length, Count);
-			for (int i = 0; i < Count; i++)
-				mBuffer.Add (Data [i]);
+			try
+			{
+				Count = Math.Min(Data.Length, Count);
+				for (int i = 0; i < Count; i++)
+					mBuffer.Add(Data[i]);
+			}
+			catch (Exception e)
+			{ }
 		}
 
 		/// <summary>
@@ -334,14 +339,20 @@ namespace OpenGraal.Core
 		public CString ZCompress ()
 		{
 			// Do Compression
-			MemoryStream MemStream = new MemoryStream ();
-			DeflaterOutputStream DefStream = new DeflaterOutputStream (MemStream, new Deflater (Deflater.DEFAULT_COMPRESSION, false));
-			DefStream.Write (mBuffer.ToArray (), 0, mBuffer.Count);
-			DefStream.Finish ();
-			DefStream.Close ();
+			try
+			{
+				MemoryStream MemStream = new MemoryStream();
+				DeflaterOutputStream DefStream = new DeflaterOutputStream(MemStream, new Deflater(Deflater.DEFAULT_COMPRESSION, false));
+				DefStream.Write(mBuffer.ToArray(), 0, mBuffer.Count);
+				DefStream.Finish();
+				DefStream.Close();
 
-			// Recreate Buffer
-			mBuffer = MemStream.ToArray ().ToList ();
+				// Recreate Buffer
+				mBuffer = MemStream.ToArray().ToList();
+
+			}
+			catch (Exception e) { }
+
 			return this;
 		}
 
