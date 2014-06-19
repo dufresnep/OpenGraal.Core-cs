@@ -9,7 +9,6 @@ namespace OpenGraal.Core
 {
 	public class CStringList : IEnumerable
 	{
-
 		#region Member Variables
 
 		/// <summary>
@@ -138,7 +137,7 @@ namespace OpenGraal.Core
 				//Trim end of line (spaces allowed)
 				string tmpLine = line;
 
-				for (int i = (int)line.Length-1; i >= 0; i--)
+				for (int i = (int)line.Length - 1; i >= 0; i--)
 				{
 					if (line.Length < 1)
 						tmpLine = "\0";
@@ -211,6 +210,7 @@ namespace OpenGraal.Core
 				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
 		}
+
 		public CString Join2(string pSep)
 		{
 			CString retVal = new CString();
@@ -220,6 +220,7 @@ namespace OpenGraal.Core
 				retVal += this._bufferList[this._bufferList.Count - 1];
 			return retVal;
 		}
+
 		#endregion
 
 		#region	Get-Value Functions
@@ -233,6 +234,5 @@ namespace OpenGraal.Core
 		}
 
 		#endregion
-
 	}
 }

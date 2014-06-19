@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +11,7 @@
     <RootNamespace>OpenGraal.Core</RootNamespace>
     <AssemblyName>OpenGraal.Core</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <ReleaseVersion>0.0.0.1</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,20 +38,17 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
-      <HintPath>ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="MonoDevelop.Deployment, Version=2.6.0.0, Culture=neutral">
-      <Private>False</Private>
       <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.Deployment.Linux, Version=2.6.0.0, Culture=neutral">
-      <Private>False</Private>
       <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.GtkCore, Version=2.6.0.0, Culture=neutral">
-      <Private>False</Private>
       <Package>monodevelop-core-addins</Package>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
