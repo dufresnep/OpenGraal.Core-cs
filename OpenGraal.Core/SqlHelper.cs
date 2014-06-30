@@ -11,24 +11,26 @@ using OpenGraal;
 namespace OpenGraal.Core
 {
 	//*********************************************************************
-	// The SqlHelper class is intended to encapsulate high performance, scalable best practices for
+	// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
 	// common uses of SqlClient.
 	//*********************************************************************
 	public sealed class SqlHelper
 	{
+
 		#region "private utility methods & constructors"
 
 		//*********************************************************************
-		//Since this class provides only static methods, make the default constructor private to prevent
+		//Since this class provides only static methods, make the default constructor private to prevent 
 		//instances from being created with "new SqlHelper()".
 		private SqlHelper()
 		{
 		}
 		//New
+
 		//*********************************************************************
 		// This method is used to attach array of SqlParameters to a SqlCommand.
 		// This method will assign a value of DbNull to any parameter with a direction of
-		// InputOutput and a value of null.
+		// InputOutput and a value of null.  
 		// This behavior will prevent default values from being used, but
 		// this will be the less common case than an intended pure output parameter (derived as InputOutput)
 		// where the user provided no input value.
@@ -49,6 +51,7 @@ namespace OpenGraal.Core
 			}
 		}
 		//AttachParameters
+
 		//*********************************************************************
 		// This method assigns an array of values to an array of SqlParameters.
 		// Parameters:
@@ -81,8 +84,9 @@ namespace OpenGraal.Core
 
 		}
 		//AssignParameterValues
+
 		//*********************************************************************
-		// This method opens (if necessary) and assigns a connection, transaction, command type and parameters
+		// This method opens (if necessary) and assigns a connection, transaction, command type and parameters 
 		// to the provided command.
 		// Parameters:
 		// -command - the SqlCommand to be prepared
@@ -130,9 +134,9 @@ namespace OpenGraal.Core
 		#region "ExecuteNonQuery"
 
 		//*********************************************************************
-		// Execute a SqlCommand (that returns no resultset and takes no parameters) against the database specified in
-		// the connection string.
-		// e.g.:
+		// Execute a SqlCommand (that returns no resultset and takes no parameters) against the database specified in 
+		// the connection string. 
+		// e.g.:  
 		//  Dim result as Integer =  ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders")
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -145,10 +149,11 @@ namespace OpenGraal.Core
 			return ExecuteNonQuery(connectionString, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns no resultset) against the database specified in the connection string
+		// Execute a SqlCommand (that returns no resultset) against the database specified in the connection string 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim result as Integer = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -173,12 +178,13 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the database specified in
-		// the connection string using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the database specified in 
+		// the connection string using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		//  Dim result as Integer = ExecuteNonQuery(connString, "PublishOrders", 24, 36)
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -209,14 +215,15 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns no resultset and takes no parameters) against the provided SqlConnection.
-		// e.g.:
+		// Execute a SqlCommand (that returns no resultset and takes no parameters) against the provided SqlConnection. 
+		// e.g.:  
 		// Dim result as Integer = ExecuteNonQuery(conn, CommandType.StoredProcedure, "PublishOrders")
 		// Parameters:
 		// -connection - a valid SqlConnection
 		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
+		// -commandText - the stored procedure name or T-SQL command 
 		// Returns: an int representing the number of rows affected by the command
 		public static int ExecuteNonQuery(SqlConnection connection, CommandType commandType, string commandText)
 		{
@@ -225,17 +232,18 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns no resultset) against the specified SqlConnection
+		// Execute a SqlCommand (that returns no resultset) against the specified SqlConnection 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		//  Dim result as Integer = ExecuteNonQuery(conn, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -connection - a valid SqlConnection
+		// -connection - a valid SqlConnection 
 		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an int representing the number of rows affected by the command
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an int representing the number of rows affected by the command 
 		public static int ExecuteNonQuery(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 
@@ -255,18 +263,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified SqlConnection
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified SqlConnection 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		//  Dim result as integer = ExecuteNonQuery(conn, "PublishOrders", 24, 36)
 		// Parameters:
 		// -connection - a valid SqlConnection
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an int representing the number of rows affected by the command
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an int representing the number of rows affected by the command 
 		public static int ExecuteNonQuery(SqlConnection connection, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -291,32 +300,34 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns no resultset and takes no parameters) against the provided SqlTransaction.
-		// e.g.:
+		// e.g.:  
 		//  Dim result as Integer = ExecuteNonQuery(trans, CommandType.StoredProcedure, "PublishOrders")
 		// Parameters:
-		// -transaction - a valid SqlTransaction associated with the connection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: an int representing the number of rows affected by the command
+		// -transaction - a valid SqlTransaction associated with the connection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: an int representing the number of rows affected by the command 
 		public static int ExecuteNonQuery(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteNonQuery(transaction, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns no resultset) against the specified SqlTransaction
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim result as Integer = ExecuteNonQuery(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an int representing the number of rows affected by the command
+		// -transaction - a valid SqlTransaction 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an int representing the number of rows affected by the command 
 		public static int ExecuteNonQuery(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//create a command and prepare it for execution
@@ -335,18 +346,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteNonQuery
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified SqlTransaction
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified SqlTransaction 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim result As Integer = SqlHelper.ExecuteNonQuery(trans, "PublishOrders", 24, 36)
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an int representing the number of rows affected by the command
+		// -transaction - a valid SqlTransaction 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an int representing the number of rows affected by the command 
 		public static int ExecuteNonQuery(SqlTransaction transaction, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -376,9 +388,9 @@ namespace OpenGraal.Core
 		#region "ExecuteDataset"
 
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in
-		// the connection string.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in 
+		// the connection string. 
+		// e.g.:  
 		// Dim ds As DataSet = SqlHelper.ExecuteDataset("", commandType.StoredProcedure, "GetOrders")
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -391,10 +403,11 @@ namespace OpenGraal.Core
 			return ExecuteDataset(connectionString, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+		// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim ds as Dataset = ExecuteDataset(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -419,12 +432,13 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the database specified in
-		// the connection string using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the database specified in 
+		// the connection string using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim ds as Dataset= ExecuteDataset(connString, "GetOrders", 24, 36)
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
@@ -455,9 +469,10 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection. 
+		// e.g.:  
 		// Dim ds as Dataset = ExecuteDataset(conn, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
 		// -connection - a valid SqlConnection
@@ -471,10 +486,11 @@ namespace OpenGraal.Core
 			return ExecuteDataset(connection, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim ds as Dataset = ExecuteDataset(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
 		// -connection - a valid SqlConnection
@@ -506,12 +522,13 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim ds As Dataset = ExecuteDataset(conn, "GetOrders", 24, 36)
 		// Parameters:
 		// -connection - a valid SqlConnection
@@ -543,9 +560,10 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction. 
+		// e.g.:  
 		// Dim ds As Dataset = ExecuteDataset(trans, CommandType.StoredProcedure, "GetOrders")
 		// Parameters
 		// -transaction - a valid SqlTransaction
@@ -558,13 +576,14 @@ namespace OpenGraal.Core
 			return ExecuteDataset(transaction, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim ds As Dataset = ExecuteDataset(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters
-		// -transaction - a valid SqlTransaction
+		// -transaction - a valid SqlTransaction 
 		// -commandType - the CommandType (stored procedure, text, etc.)
 		// -commandText - the stored procedure name or T-SQL command
 		// -commandParameters - an array of SqlParamters used to execute the command
@@ -591,15 +610,16 @@ namespace OpenGraal.Core
 			return ds;
 		}
 		//ExecuteDataset
+
 		//*********************************************************************
 		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified
-		// SqlTransaction using the provided parameter values.  This method will discover the parameters for the
+		// SqlTransaction using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim ds As Dataset = ExecuteDataset(trans, "GetOrders", 24, 36)
 		// Parameters:
-		// -transaction - a valid SqlTransaction
+		// -transaction - a valid SqlTransaction 
 		// -spName - the name of the stored procedure
 		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
 		// Returns: a dataset containing the resultset generated by the command
@@ -630,7 +650,6 @@ namespace OpenGraal.Core
 		#endregion
 
 		#region "ExecuteReader"
-
 		//*********************************************************************
 		// this enum is used to indicate whether the connection was provided by the caller, or created by SqlHelper, so that
 		// we can set the appropriate CommandBehavior when calling ExecuteReader()
@@ -642,18 +661,19 @@ namespace OpenGraal.Core
 			External
 		}
 		//SqlConnectionOwnership
+
 		//*********************************************************************
 		// Create and prepare a SqlCommand, and call ExecuteReader with the appropriate CommandBehavior.
 		// If we created and opened the connection, we want the connection to be closed when the DataReader is closed.
 		// If the caller provided the connection, we want to leave it to them to manage.
 		// Parameters:
-		// -connection - a valid SqlConnection, on which to execute this command
-		// -transaction - a valid SqlTransaction, or 'null'
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParameters to be associated with the command or 'null' if no parameters are required
-		// -connectionOwnership - indicates whether the connection parameter was provided by the caller, or created by SqlHelper
-		// Returns: SqlDataReader containing the results of the command
+		// -connection - a valid SqlConnection, on which to execute this command 
+		// -transaction - a valid SqlTransaction, or 'null' 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParameters to be associated with the command or 'null' if no parameters are required 
+		// -connectionOwnership - indicates whether the connection parameter was provided by the caller, or created by SqlHelper 
+		// Returns: SqlDataReader containing the results of the command 
 		private static SqlDataReader ExecuteReader(SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters, SqlConnectionOwnership connectionOwnership)
 		{
 			//create a command and prepare it for execution
@@ -679,33 +699,35 @@ namespace OpenGraal.Core
 			return dr;
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in
-		// the connection string.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in 
+		// the connection string. 
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteReader(connectionString, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+		// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//create & open a SqlConnection
@@ -725,18 +747,19 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the database specified in
-		// the connection string using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the database specified in 
+		// the connection string using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(connString, "GetOrders", 24, 36)
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(string connectionString, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -760,15 +783,16 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection. 
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(conn, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(SqlConnection connection, CommandType commandType, string commandText)
 		{
 
@@ -776,17 +800,18 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//pass through the call to private overload using a null transaction value
@@ -794,18 +819,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(conn, "GetOrders", 24, 36)
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(SqlConnection connection, string spName, params object[] parameterValues)
 		{
 			//pass through the call using a null transaction value
@@ -830,48 +856,51 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteReader
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(trans, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -transaction - a valid SqlTransaction  
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteReader(transaction, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteReader
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -transaction - a valid SqlTransaction
+		// -transaction - a valid SqlTransaction 
 		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: a SqlDataReader containing the resultset generated by the command
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: a SqlDataReader containing the resultset generated by the command 
 		public static SqlDataReader ExecuteReader(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//pass through to private overload, indicating that the connection is owned by the caller
 			return ExecuteReader(transaction.Connection, transaction, commandType, commandText, commandParameters, SqlConnectionOwnership.External);
 		}
 		//ExecuteReader
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlTransaction
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlTransaction 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim dr As SqlDataReader = ExecuteReader(trans, "GetOrders", 24, 36)
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -spName - the name of the stored procedure
+		// -transaction - a valid SqlTransaction 
+		// -spName - the name of the stored procedure 
 		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
 		// Returns: a SqlDataReader containing the resultset generated by the command
 		public static SqlDataReader ExecuteReader(SqlTransaction transaction, string spName, params object[] parameterValues)
@@ -900,14 +929,14 @@ namespace OpenGraal.Core
 		#region "ExecuteScalar"
 
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the database specified in
-		// the connection string.
-		// e.g.:
+		// Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the database specified in 
+		// the connection string. 
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(connString, CommandType.StoredProcedure, "GetOrderCount"))
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
 		// Returns: an object containing the value in the 1x1 resultset generated by the command
 		public static object ExecuteScalar(string connectionString, CommandType commandType, string commandText)
 		{
@@ -915,17 +944,18 @@ namespace OpenGraal.Core
 			return ExecuteScalar(connectionString, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a 1x1 resultset) against the database specified in the connection string
+		// Execute a SqlCommand (that returns a 1x1 resultset) against the database specified in the connection string 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = Cint(ExecuteScalar(connString, CommandType.StoredProcedure, "GetOrderCount", new SqlParameter("@prodid", 24)))
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//create & open a SqlConnection, and dispose of it after we are done.
@@ -943,18 +973,19 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the database specified in
-		// the connection string using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the database specified in 
+		// the connection string using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(connString, "GetOrderCount", 24, 36))
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(string connectionString, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -978,32 +1009,34 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the provided SqlConnection.
-		// e.g.:
+		// Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the provided SqlConnection. 
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(conn, CommandType.StoredProcedure, "GetOrderCount"))
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteScalar(connection, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection
+		// Execute a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(conn, CommandType.StoredProcedure, "GetOrderCount", new SqlParameter("@prodid", 24)))
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//create a command and prepare it for execution
@@ -1022,18 +1055,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(conn, "GetOrderCount", 24, 36))
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlConnection connection, string spName, params object[] parameterValues)
 		{
 
@@ -1059,32 +1093,34 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the provided SqlTransaction.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer  = CInt(ExecuteScalar(trans, CommandType.StoredProcedure, "GetOrderCount"))
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -transaction - a valid SqlTransaction 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteScalar(transaction, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a 1x1 resultset) against the specified SqlTransaction
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(trans, CommandType.StoredProcedure, "GetOrderCount", new SqlParameter("@prodid", 24)))
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -transaction - a valid SqlTransaction  
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//create a command and prepare it for execution
@@ -1103,18 +1139,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteScalar
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified SqlTransaction
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified SqlTransaction 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim orderCount As Integer = CInt(ExecuteScalar(trans, "GetOrderCount", 24, 36))
 		// Parameters:
-		// -transaction - a valid SqlTransaction
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an object containing the value in the 1x1 resultset generated by the command
+		// -transaction - a valid SqlTransaction 
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an object containing the value in the 1x1 resultset generated by the command 
 		public static object ExecuteScalar(SqlTransaction transaction, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -1144,31 +1181,32 @@ namespace OpenGraal.Core
 		#region "ExecuteXmlReader"
 
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
-		// e.g.:
+		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection. 
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(conn, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO"
-		// Returns: an XmlReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO" 
+		// Returns: an XmlReader containing the resultset generated by the command 
 		public static XmlReader ExecuteXmlReader(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteXmlReader(connection, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteXmlReader
+
 		//*********************************************************************
-		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+		// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection 
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO"
-		// -commandParameters - an array of SqlParamters used to execute the command
-		// Returns: an XmlReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO" 
+		// -commandParameters - an array of SqlParamters used to execute the command 
+		// Returns: an XmlReader containing the resultset generated by the command 
 		public static XmlReader ExecuteXmlReader(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//pass through the call using a null transaction value
@@ -1190,18 +1228,19 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteXmlReader
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(conn, "GetOrders", 24, 36)
 		// Parameters:
-		// -connection - a valid SqlConnection
-		// -spName - the name of the stored procedure using "FOR XML AUTO"
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
-		// Returns: an XmlReader containing the resultset generated by the command
+		// -connection - a valid SqlConnection 
+		// -spName - the name of the stored procedure using "FOR XML AUTO" 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
+		// Returns: an XmlReader containing the resultset generated by the command 
 		public static XmlReader ExecuteXmlReader(SqlConnection connection, string spName, params object[] parameterValues)
 		{
 			SqlParameter[] commandParameters = null;
@@ -1225,31 +1264,33 @@ namespace OpenGraal.Core
 			}
 		}
 		//ExecuteXmlReader
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction
-		// e.g.:
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(trans, CommandType.StoredProcedure, "GetOrders")
 		// Parameters:
 		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO"
-		// Returns: an XmlReader containing the resultset generated by the command
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO" 
+		// Returns: an XmlReader containing the resultset generated by the command 
 		public static XmlReader ExecuteXmlReader(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
 			return ExecuteXmlReader(transaction, commandType, commandText, (SqlParameter[])null);
 		}
 		//ExecuteXmlReader
+
 		//*********************************************************************
 		// Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
 		// using the provided parameters.
-		// e.g.:
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24))
 		// Parameters:
 		// -transaction - a valid SqlTransaction
-		// -commandType - the CommandType (stored procedure, text, etc.)
-		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO"
-		// -commandParameters - an array of SqlParamters used to execute the command
+		// -commandType - the CommandType (stored procedure, text, etc.) 
+		// -commandText - the stored procedure name or T-SQL command using "FOR XML AUTO" 
+		// -commandParameters - an array of SqlParamters used to execute the command 
 		// Returns: an XmlReader containing the resultset generated by the command
 		public static XmlReader ExecuteXmlReader(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
@@ -1269,17 +1310,18 @@ namespace OpenGraal.Core
 
 		}
 		//ExecuteXmlReader
+
 		//*********************************************************************
-		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlTransaction
-		// using the provided parameter values.  This method will discover the parameters for the
+		// Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlTransaction 
+		// using the provided parameter values.  This method will discover the parameters for the 
 		// stored procedure, and assign the values based on parameter order.
 		// This method provides no access to output parameters or the stored procedure's return value parameter.
-		// e.g.:
+		// e.g.:  
 		// Dim r As XmlReader = ExecuteXmlReader(trans, "GetOrders", 24, 36)
 		// Parameters:
 		// -transaction - a valid SqlTransaction
-		// -spName - the name of the stored procedure
-		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure
+		// -spName - the name of the stored procedure 
+		// -parameterValues - an array of objects to be assigned as the input values of the stored procedure 
 		// Returns: a dataset containing the resultset generated by the command
 		public static XmlReader ExecuteXmlReader(SqlTransaction transaction, string spName, params object[] parameterValues)
 		{
@@ -1324,21 +1366,26 @@ namespace OpenGraal.Core
 			}
 		}
 	}
+
 	//SqlHelper
+
 	// SqlHelperParameterCache provides functions to leverage a static cache of procedure parameters, and the
 	// ability to discover parameters for stored procedures at run-time.
 	public sealed class SqlHelperParameterCache
 	{
+
 		#region "private methods, variables, and constructors"
 
 		//*********************************************************************
-		//Since this class provides only static methods, make the default constructor private to prevent
+		//Since this class provides only static methods, make the default constructor private to prevent 
 		//instances from being created with "new SqlHelperParameterCache()".
 		private SqlHelperParameterCache()
 		{
 		}
-		//New
+		//New 
+
 		private static Hashtable paramCache = Hashtable.Synchronized(new Hashtable());
+
 		//*********************************************************************
 		// resolve at run time the appropriate set of SqlParameters for a stored procedure
 		// Parameters:
@@ -1377,6 +1424,7 @@ namespace OpenGraal.Core
 
 		}
 		//DiscoverSpParameterSet
+
 		//*********************************************************************
 		//deep copy of cached SqlParameter array
 		private static SqlParameter[] CloneParameters(SqlParameter[] originalParameters)
@@ -1402,9 +1450,9 @@ namespace OpenGraal.Core
 		//*********************************************************************
 		// add parameter array to the cache
 		// Parameters
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandText - the stored procedure name or T-SQL command
-		// -commandParameters - an array of SqlParamters to be cached
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandText - the stored procedure name or T-SQL command 
+		// -commandParameters - an array of SqlParamters to be cached 
 		public static void CacheParameterSet(string connectionString, string commandText, params SqlParameter[] commandParameters)
 		{
 			string hashKey = connectionString + ":" + commandText;
@@ -1412,12 +1460,13 @@ namespace OpenGraal.Core
 			paramCache[hashKey] = commandParameters;
 		}
 		//CacheParameterSet
+
 		//*********************************************************************
 		// retrieve a parameter array from the cache
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -commandText - the stored procedure name or T-SQL command
-		// Returns: an array of SqlParamters
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -commandText - the stored procedure name or T-SQL command 
+		// Returns: an array of SqlParamters 
 		public static SqlParameter[] GetCachedParameterSet(string connectionString, string commandText)
 		{
 			string hashKey = connectionString + ":" + commandText;
@@ -1440,26 +1489,27 @@ namespace OpenGraal.Core
 
 		//*********************************************************************
 		// Retrieves the set of SqlParameters appropriate for the stored procedure
-		//
+		// 
 		// This method will query the database for this information, and then store it in a cache for future requests.
 		// Parameters:
-		// -connectionString - a valid connection string for a SqlConnection
-		// -spName - the name of the stored procedure
+		// -connectionString - a valid connection string for a SqlConnection 
+		// -spName - the name of the stored procedure 
 		// Returns: an array of SqlParameters
 		public static SqlParameter[] GetSpParameterSet(string connectionString, string spName)
 		{
 			return GetSpParameterSet(connectionString, spName, false);
 		}
-		//GetSpParameterSet
+		//GetSpParameterSet 
+
 		//*********************************************************************
 		// Retrieves the set of SqlParameters appropriate for the stored procedure
-		//
+		// 
 		// This method will query the database for this information, and then store it in a cache for future requests.
 		// Parameters:
 		// -connectionString - a valid connection string for a SqlConnection
-		// -spName - the name of the stored procedure
-		// -includeReturnValueParameter - a bool value indicating whether the return value parameter should be included in the results
-		// Returns: an array of SqlParameters
+		// -spName - the name of the stored procedure 
+		// -includeReturnValueParameter - a bool value indicating whether the return value parameter should be included in the results 
+		// Returns: an array of SqlParameters 
 		public static SqlParameter[] GetSpParameterSet(string connectionString, string spName, bool includeReturnValueParameter)
 		{
 
@@ -1486,8 +1536,8 @@ namespace OpenGraal.Core
 
 		}
 		//GetSpParameterSet
-
 		#endregion
+
 	}
-	//SqlHelperParameterCache
+	//SqlHelperParameterCache 
 }

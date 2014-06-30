@@ -15,9 +15,7 @@ namespace OpenGraal.Core
 		private readonly Regex _singleLineCommentRegex = new Regex(@"^\s*#.*$");
 		private string _filename = "";
 
-		public IniFile()
-		{
-		}
+		public IniFile() { }
 
 		/// <summary>
 		/// Get a specific value from the .ini file
@@ -35,12 +33,9 @@ namespace OpenGraal.Core
 		public int GetValueInt(string sectionName, string key, int def)
 		{
 			String val = GetValue(sectionName, key, def.ToString());
-			try
-			{
+			try {
 				return int.Parse(val);
-			}
-			catch (Exception)
-			{
+			} catch (Exception) {
 				return def;
 			}
 		}
@@ -104,6 +99,7 @@ namespace OpenGraal.Core
 			_iniFileContent[sectionName] = new Dictionary<string, string>(sectionValues);
 		}
 
+
 		/// <summary>
 		/// Load an .INI File
 		/// </summary>
@@ -153,7 +149,7 @@ namespace OpenGraal.Core
 									kvpList = _iniFileContent[currentSectionName];
 								else
 									kvpList = new Dictionary<string, string>();
-								kvpList["commentkey" + com.ToString()] = key;
+								kvpList["commentkey"+com.ToString()] = key;
 								_iniFileContent[currentSectionName] = kvpList;
 							}
 						}

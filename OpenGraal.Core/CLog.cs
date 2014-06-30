@@ -6,7 +6,7 @@ using System.Threading;
 namespace OpenGraal.Core
 {
 	public class CLog
-	{
+    {
 		private StreamWriter file;
 		private bool enabled;
 		private string homepath = null;
@@ -53,7 +53,7 @@ namespace OpenGraal.Core
 			this.file.Close();
 
 			this.file = new StreamWriter(homepath + filename, false);
-			if (null == file)
+			if ( null == file )
 				enabled = false;
 		}
 	}
