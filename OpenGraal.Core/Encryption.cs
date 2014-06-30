@@ -15,12 +15,18 @@ namespace OpenGraal.Core
 		/// </summary>
 		public enum Generation
 		{
-			GEN1 = 0,	// No encryption/no compression.
-			GEN2 = 1,	// No encryption/zlib compression.
-			GEN3 = 2,	// Single byte insertion/zlib compression.
-			GEN4 = 3,	// Partial packet encryption/bz2 compression.
-			GEN5 = 4,	// Partial packet encryption/none, zlib, bz2 compression methods.
-			GEN6 = 5,	// Unknown (Graal v6 encryption).
+			GEN1 = 0,
+			// No encryption/no compression.
+			GEN2 = 1,
+			// No encryption/zlib compression.
+			GEN3 = 2,
+			// Single byte insertion/zlib compression.
+			GEN4 = 3,
+			// Partial packet encryption/bz2 compression.
+			GEN5 = 4,
+			// Partial packet encryption/none, zlib, bz2 compression methods.
+			GEN6 = 5,
+			// Unknown (Graal v6 encryption).
 		};
 
 		/// <summary>
@@ -47,7 +53,7 @@ namespace OpenGraal.Core
 		/// </summary>
 		public Byte Key
 		{
-			get { return mKey;  }
+			get { return mKey; }
 			set { mKey = value; }
 		}
 
@@ -56,7 +62,7 @@ namespace OpenGraal.Core
 		/// </summary>
 		public Generation Gen
 		{
-			get { return mGeneration;  }
+			get { return mGeneration; }
 			set { mGeneration = value; }
 		}
 
@@ -66,7 +72,7 @@ namespace OpenGraal.Core
 		static readonly UInt32[] ITERATOR_START_VAL = new UInt32[] { 0, 0, 0x04A80B38, 0x4A80B38, 0x4A80B38, 0 };
 		Byte mKey = 0;
 		Int32 mLimit = -1;
-		UInt32[] mIterator = new UInt32[] {0, 0};
+		UInt32[] mIterator = new UInt32[] { 0, 0 };
 		Generation mGeneration = 0;
 
 		/// <summary>
@@ -85,27 +91,28 @@ namespace OpenGraal.Core
 			// Apply the correct decryption algorithm
 			switch (mGeneration)
 			{
-				// No Encryption
+			// No Encryption
 				case Generation.GEN1:
 				case Generation.GEN2:
 					return;
 
-				// Single byte insertion/zlib compression
+			// Single byte insertion/zlib compression
 				case Generation.GEN3:
 					mIterator[(Int32)Crypt] *= 0x8088405;
 					mIterator[(Int32)Crypt] += mKey;
 					Buffer.Remove((((Int32)mIterator[(Int32)Crypt] & 0x0FFFF) % Buffer.Length), 1);
 					break;
 
-				// Partial packet encryption/none, zlib, bz2 compression methods.
-				// Gen 4 is only bz2.
+			// Partial packet encryption/none, zlib, bz2 compression methods.
+			// Gen 4 is only bz2.
 				case Generation.GEN4:
 				case Generation.GEN5:
 					for (int i = 0; i < Buffer.Length; i++)
 					{
 						if (i % 4 == 0)
 						{
-							if (mLimit == 0) return;
+							if (mLimit == 0)
+								return;
 
 							mIterator[(Int32)Crypt] *= 0x8088405;
 							mIterator[(Int32)Crypt] += mKey;
@@ -117,7 +124,7 @@ namespace OpenGraal.Core
 					}
 					break;
 
-				// Future Encryption Method (Graal V6)
+			// Future Encryption Method (Graal V6)
 				case Generation.GEN6:
 					break;
 			}
