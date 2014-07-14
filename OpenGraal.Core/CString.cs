@@ -14,6 +14,7 @@ using ICSharpCode.SharpZipLib.BZip2;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
+
 namespace OpenGraal.Core
 {
 	/// <summary>
@@ -53,6 +54,30 @@ namespace OpenGraal.Core
 		public CString(string buffer = "")
 		{
 			this.Write(Encoding.Default.GetBytes(buffer));
+		}
+
+		public bool SaveData(string FileName)
+		{
+			BinaryWriter Writer = null;
+			string Name = FileName;
+
+			try
+			{
+				// Create a new stream to write to the file
+				Writer = new BinaryWriter(File.OpenWrite(Name));
+
+				// Writer raw data                
+				Writer.Write(this.Buffer);
+				Writer.Flush();
+				Writer.Close();
+			}
+			catch
+			{
+				//...
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -521,7 +546,8 @@ namespace OpenGraal.Core
 		{
 			byte[] data = new byte[5];
 			Read(data);
-			return (int)(((data[0] - 32) << 28) + ((data[1] - 32) << 21) + ((data[2] - 32) << 14) + ((data[3] - 32) << 7) + data[4] - 32);
+			return (int)(((((data[0] << 7) + data[1] << 7) + data[2] << 7) + data[3] << 7) + data[4] - 0x4081020);
+			//return (int)(((data[0] - 32) << 28) + ((data[1] - 32) << 21) + ((data[2] - 32) << 14) + ((data[3] - 32) << 7) + data[4] - 32);
 		}
 		// Read Unsigned Graal-Byte Data
 		public byte ReadGUByte1()
