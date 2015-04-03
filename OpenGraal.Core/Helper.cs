@@ -59,7 +59,7 @@ int parse_base64(string[] str)
 }
 
 string format_base64(int num, int len) {
-  string str;
+  string str="";
   for (int i = 0; i < len; ++i) {
     int index = (num >> (len - i - 1) * 6) & 0x3F; // 6 bit per character
     str += BASE64[index];
