@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{265AD0CA-2B19-42AB-9949-B04A135969F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ClassLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>CoreVS2013</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".git\config" />
+    <None Include=".git\description" />
+    <None Include=".git\FETCH_HEAD" />
+    <None Include=".git\HEAD" />
+    <None Include=".git\hooks\README.sample" />
+    <None Include=".git\index" />
+    <None Include=".git\info\exclude" />
+    <None Include=".git\logs\HEAD" />
+    <None Include=".git\logs\refs\heads\master" />
+    <None Include=".git\logs\refs\remotes\origin\master" />
+    <None Include=".git\objects\00\1174890f9ad8fdf5001bc1ff31ab9e439598e2" />
+    <None Include=".git\objects\0a\62e8bcde8dd008520040688cee992b3287fc02" />
+    <None Include=".git\objects\1f\f0c423042b46cb1d617b81efb715defbe8054d" />
+    <None Include=".git\objects\30\08f114f548da8bc5c03b8e2306b6f6c5d3f6d8" />
+    <None Include=".git\objects\30\b2ef770e30837a2e6cc9b387b626fc671cf3ff" />
+    <None Include=".git\objects\36\51a644d9398902f37d091e2e46175e9ceed016" />
+    <None Include=".git\objects\5e\08b2a64acad88f60c5d9046af5e6bd926717cf" />
+    <None Include=".git\objects\63\d9f0344c302a220342d61af2aa7c71918260d2" />
+    <None Include=".git\objects\79\6453635bb4bde2a32b55293fff153807954def" />
+    <None Include=".git\objects\81\9228e9199fc7c91626510355651fb89b253684" />
+    <None Include=".git\objects\85\30d32c8a0bbba20b76ed81a5709f6609369957" />
+    <None Include=".git\objects\a9\dbdb373da4c3e72bdd0083a6d8ab7b2a97c6a1" />
+    <None Include=".git\objects\d4\2e198229f5399b54a2dce164ecdc070996a977" />
+    <None Include=".git\objects\dc\0d5edfcca925432c906e6697b1672b748dd2cd" />
+    <None Include=".git\objects\e2\07af94967ef25cf38889c4635b8b28a8245494" />
+    <None Include=".git\objects\eb\29161efac6306acfb8593a843211412ac15ad1" />
+    <None Include=".git\objects\pack\pack-1d2e689be333eae6658ac30b6971c06a8e155e1e.idx" />
+    <None Include=".git\objects\pack\pack-1d2e689be333eae6658ac30b6971c06a8e155e1e.pack" />
+    <None Include=".git\refs\heads\master" />
+    <None Include=".git\refs\remotes\origin\master" />
+    <None Include="OpenGraal-CodeFormatting.mdpolicy" />
+    <None Include="OpenGraal.Core\obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="OpenGraal.Core\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="OpenGraal.Core\packages.config" />
+    <None Include="packages\repositories.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".git\ms-persist.xml" />
+    <Content Include="OpenGraal.Core\OpenGraal.CoreMD2010.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OpenGraal.Core\CLog.cs" />
+    <Compile Include="OpenGraal.Core\CSocket.cs" />
+    <Compile Include="OpenGraal.Core\CString.cs" />
+    <Compile Include="OpenGraal.Core\CStringList.cs" />
+    <Compile Include="OpenGraal.Core\Encryption.cs" />
+    <Compile Include="OpenGraal.Core\Helper.cs" />
+    <Compile Include="OpenGraal.Core\IComparableExtension.cs" />
+    <Compile Include="OpenGraal.Core\IniFile.cs" />
+    <Compile Include="OpenGraal.Core\Properties\AssemblyInfo.cs" />
+    <Compile Include="OpenGraal.Core\SqlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\objects\info\" />
+    <Folder Include=".git\refs\tags\" />
+    <Folder Include="OpenGraal.Core\bin\Debug\" />
+    <Folder Include="OpenGraal.Core\obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>
