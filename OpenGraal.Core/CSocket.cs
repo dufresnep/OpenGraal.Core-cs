@@ -116,7 +116,7 @@ namespace OpenGraal.Core
 					IPAddress ip = IPAddress.Parse(Hostname.Trim());
 					this.Connect(ip, Port);
 				}
-				catch (System.FormatException e)
+				catch (System.FormatException)
 				{
 					IPHostEntry ip = Dns.GetHostEntry(Hostname.Trim());
 					this.Connect(ip, Port);

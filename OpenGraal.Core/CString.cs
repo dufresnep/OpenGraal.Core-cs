@@ -271,7 +271,7 @@ namespace OpenGraal.Core
 				for (int i = 0; i < Count; i++)
 					mBuffer.Add(Data[i]);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 			}
 		}
@@ -377,7 +377,7 @@ namespace OpenGraal.Core
 				mBuffer = MemStream.ToArray().ToList();
 
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 			}
 
