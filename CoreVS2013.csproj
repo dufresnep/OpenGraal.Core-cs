@@ -77,8 +77,6 @@
     <None Include=".git\refs\heads\master" />
     <None Include=".git\refs\remotes\origin\master" />
     <None Include="OpenGraal-CodeFormatting.mdpolicy" />
-    <None Include="OpenGraal.Core\obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <None Include="OpenGraal.Core\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="OpenGraal.Core\packages.config" />
     <None Include="packages\repositories.config" />
   </ItemGroup>
@@ -101,8 +99,7 @@
   <ItemGroup>
     <Folder Include=".git\objects\info\" />
     <Folder Include=".git\refs\tags\" />
-    <Folder Include="OpenGraal.Core\bin\Debug\" />
-    <Folder Include="OpenGraal.Core\obj\Debug\TempPE\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
